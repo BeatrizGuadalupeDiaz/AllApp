@@ -1,11 +1,11 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {Home} from './src/screens/Home';
+import BottomTab from './src/navigation/home/BottonTab';
 
 function App(): React.JSX.Element {
   return (
     <NavigationContainer>
-      <Home />
+      <BottomTab />
     </NavigationContainer>
   );
 }

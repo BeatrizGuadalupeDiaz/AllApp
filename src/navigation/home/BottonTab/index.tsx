@@ -9,7 +9,7 @@ type RootTabParamList = {
 };
 const Tab = createBottomTabNavigator<RootTabParamList>();
 
-export function BottomTab() {
+export default function BottomTab() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="ToDo" component={ToDo} />
