@@ -11,7 +11,10 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 export default function BottomTab() {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}>
       <Tab.Screen name="ToDo" component={ToDo} />
       <Tab.Screen name="Water" component={Water} />
       <Tab.Screen name="Calculator" component={Calculator} />
