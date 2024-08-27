@@ -42,12 +42,11 @@ export const Home = () => {
       </View>
     );
   }
-  console.log(data);
 
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Api</Text>
-      <Text style={styles.text}>Pokemones: </Text>
+      <Text style={styles.text}>Movies: </Text>
       <FlatList
         data={data}
         keyExtractor={({id}) => id}
