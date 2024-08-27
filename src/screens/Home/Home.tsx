@@ -3,34 +3,36 @@ import {
   Text,
   StyleSheet,
   ActivityIndicator,
-  Pressable,
-  ScrollView,
+  FlatList,
 } from 'react-native';
 import React, {useEffect} from 'react';
 
-export const Home = () => {
-  const URL_API = 'https://pokeapi.co/api/v2/pokemon';
+type Movies = {
+  id: string;
+  releaseYear: string;
+  title: string;
+};
 
-  const [response, setResponse] = React.useState<string[]>([]);
+export const Home = () => {
+  const URL_API_MOVIES = 'https://reactnative.dev/movies.json';
+
+  const [data, setData] = React.useState<Movies[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  type Pokemon = {
-    name: string;
-    url: string;
+  const getMoview = async () => {
+    try {
+      const response = await fetch(URL_API_MOVIES);
+      const json = await response.json();
+      setData(json.movies);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    fetch(URL_API)
-      .then(res => res.json())
-      .then(data => {
-        const names = data.results.map((pokemon: Pokemon) => pokemon.name);
-        setResponse(names);
-        setLoading(false);
-      })
-      .catch(error => {
-        console.log(error);
-        setLoading(false);
-      });
+    getMoview();
   }, []);
 
   if (loading) {
@@ -40,24 +42,22 @@ export const Home = () => {
       </View>
     );
   }
+  console.log(data);
 
   return (
-    <ScrollView style={styles.containerScroll}>
-      <View style={styles.container}>
-        <Text style={styles.text}>Api</Text>
-        <Text style={styles.text}>Pokemones: </Text>
-        {response.map((value, index) => (
-          <Pressable
-            key={index}
-            style={({pressed}) => [
-              {backgroundColor: pressed ? '#d3d3d3' : 'white'},
-              styles.button,
-            ]}>
-            <Text style={styles.namePokemon}>{value}</Text>
-          </Pressable>
-        ))}
-      </View>
-    </ScrollView>
+    <View style={styles.container}>
+      <Text style={styles.text}>Api</Text>
+      <Text style={styles.text}>Pokemones: </Text>
+      <FlatList
+        data={data}
+        keyExtractor={({id}) => id}
+        renderItem={({item}) => (
+          <Text style={styles.namePokemon} key={item.id}>
+            {item.title} - {item.releaseYear}
+          </Text>
+        )}
+      />
+    </View>
   );
 };
 
