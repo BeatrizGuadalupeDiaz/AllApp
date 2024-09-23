@@ -1,6 +1,6 @@
 import {View, Text, ActivityIndicator, StyleSheet, Image} from 'react-native';
 import React from 'react';
-import {RootWater} from './utils/types/RespWater';
+import {RootWater} from '../../../types/RespWater';
 
 const API_KEY = '535063458f204933806161527242708';
 const BASE_URL = 'http://api.weatherapi.com/v1/current.json';
@@ -34,13 +34,13 @@ export const Water = () => {
       <ActivityIndicator size={'large'} />
     </View>;
   }
+  console.log(water?.forecast?.forecastday[0].date);
+  const {name, country, region} = water?.location || {};
   return (
     <View style={styles.container}>
       <Text style={styles.temp}>Clima</Text>
-      <Text style={styles.temp}>{water?.location.name + ','}</Text>
-      <Text style={styles.temp}>
-        {water?.location.region + ' ' + water?.location.country}
-      </Text>
+      <Text style={styles.temp}>{name + ','}</Text>
+      <Text style={styles.temp}>{region + ' ' + country}</Text>
       <Text style={styles.temp}>{water?.current.temp_c + ' °C'}</Text>
       <Image
         source={{uri: 'https:' + water?.current.condition.icon}}

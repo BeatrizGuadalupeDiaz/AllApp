@@ -1,69 +1,23 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ActivityIndicator,
-  FlatList,
-} from 'react-native';
-import React, {useEffect} from 'react';
-
-type Movies = {
-  id: string;
-  releaseYear: string;
-  title: string;
-};
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+import React from 'react';
+import {useNavigation, NavigationProp} from '@react-navigation/native';
+import {RootStackParamList} from '../../navigation/home/stack';
 
 export const Home = () => {
-  const URL_API_MOVIES = 'https://reactnative.dev/movies.json';
-
-  const [data, setData] = React.useState<Movies[]>([]);
-  const [loading, setLoading] = React.useState(true);
-
-  const getMoview = async () => {
-    try {
-      const response = await fetch(URL_API_MOVIES);
-      const json = await response.json();
-      setData(json.movies);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getMoview();
-  }, []);
-
-  if (loading) {
-    return (
-      <View style={styles.container}>
-        <ActivityIndicator size={'large'} />
-      </View>
-    );
-  }
-
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Api</Text>
-      <Text style={styles.text}>Movies: </Text>
-      <FlatList
-        data={data}
-        keyExtractor={({id}) => id}
-        renderItem={({item}) => (
-          <Text style={styles.namePokemon} key={item.id}>
-            {item.title} - {item.releaseYear}
-          </Text>
-        )}
-      />
+      <Text style={styles.text}>Pruebas</Text>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('NotificationScreen')}>
+        <Text>Ir a Notificaciones</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  containerScroll: {
-    flex: 1,
-  },
   container: {
     flex: 1,
     alignItems: 'center',
@@ -75,16 +29,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 20,
   },
-  namePokemon: {
-    fontSize: 15,
-    color: 'blue',
-    textAlign: 'center',
-  },
   button: {
     height: 50,
     width: '50%',
     borderWidth: 1,
     justifyContent: 'center',
+    alignItems: 'center',
     marginBottom: 20,
     borderRadius: 30,
   },
